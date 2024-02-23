@@ -15,7 +15,7 @@ const PORT = 3000;
 // connect to mongoDB
 
 // handle requests for static files
-app.use(express.static(path.join(__dirname, '../')));
+app.use(express.static(path.join(__dirname, '../public')));
 // attempting to leverage express.static
 
 // handles loading the initial html page
@@ -25,20 +25,20 @@ app.use(express.static(path.join(__dirname, '../')));
 //     return res.sendFile(route);
 // });
 
-app.get('/signup', (req, res) => {
-    const route = path.join(__dirname, '../signup.html')
-    return res.status(201).sendFile(route);
-});
+// app.get('/signup', (req, res) => {
+//     const route = path.join(__dirname, '../signup.html')
+//     return res.status(201).sendFile(route);
+// });
 
-app.get('/login', (req, res) => {
-    const route = path.join(__dirname, '../login.html')
-    return res.status(202).sendFile(route);
-});
+// app.get('/login', (req, res) => {
+//     const route = path.join(__dirname, '../login.html')
+//     return res.status(202).sendFile(route);
+// });
 
-app.get('/home', (req, res) => {
-    const route = path.join(__dirname, '../home.html')
-    return res.status(200).sendFile(route);
-});
+// app.get('/home', (req, res) => {
+//     const route = path.join(__dirname, '../home.html')
+//     return res.status(200).sendFile(route);
+// });
 
 
 // 404 handler
