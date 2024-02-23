@@ -16,6 +16,7 @@ const PORT = 3000;
 
 // handle requests for static files
 app.use(express.static(path.join(__dirname, '../')));
+// attempting to leverage express.static
 
 // handles loading the initial html page
 // app.get('/', (req, res) => {
