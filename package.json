@@ -1,0 +1,16 @@
+{
+  "name": "attempt01",
+  "version": "1.0.0",
+  "description": "attempt 01",
+  "main": "main.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "julesdmai",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.2.0"
+  }
+}

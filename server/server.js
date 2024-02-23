@@ -15,33 +15,37 @@ const PORT = 3000;
 // connect to mongoDB
 
 // handle requests for static files
-app.use(express.static(__dirname))
+app.use(express.static(path.join(__dirname, '../')));
 
 // handles loading the initial html page
-app.get('/', (req, res) => {
-    console.log("Routed through '/'");
-    const route = path.join(__dirname, 'index.html');
-    return res.sendFile(route);
-})
+// app.get('/', (req, res) => {
+//     console.log("Routed through '/'");
+//     const route = path.join(__dirname, 'index.html');
+//     return res.sendFile(route);
+// });
 
 app.get('/signup', (req, res) => {
-    return res.status(200).json({});
-})
+    const route = path.join(__dirname, '../signup.html')
+    return res.status(201).sendFile(route);
+});
 
 app.get('/login', (req, res) => {
-    return res.status(200).json({});
-})
+    const route = path.join(__dirname, '../login.html')
+    return res.status(202).sendFile(route);
+});
 
 app.get('/home', (req, res) => {
-    return res.status(200).json({});
-})
+    const route = path.join(__dirname, '../home.html')
+    return res.status(200).sendFile(route);
+});
 
 
 // 404 handler
 app.get('*', (req, res) => {
     console.log('unestablished route attempted, returning 404 error');
-    return res.status(404).sendFile(path.join(__dirname, 'error.html'));
-})
+    const route = path.join(__dirname, '../error.html');
+    return res.status(404).sendFile(route);
+});
 
 
 // Global error handler
