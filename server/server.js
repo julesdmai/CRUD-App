@@ -17,7 +17,7 @@ const PORT = 3000;
 // Handle parsing request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // Connect to mongoDB
 mongoose.connect('mongodb+srv://julesdmai:zoPQKk8WWTFxicMj@attempt01.noejrg3.mongodb.net/?retryWrites=true&w=majority&appName=Attempt01');
@@ -53,17 +53,22 @@ app.get('/login', (req, res) => {
     const filePath = path.join(__dirname, '../public/login.html');
     return res.status(200).sendFile(filePath);
 })
-// sessionController.startSession,
-app.post('/login', userController.verifyUser, (req, res) => {
-    console.log('routed through "/login" POST');
-    const filePath = path.join(__dirname, '../public/home.html');
-    return res.status(200).sendFile(filePath);
+
+app.post(
+    '/login', 
+    userController.verifyUser, 
+    cookieController.setSSIDCookie, 
+    sessionController.startSession, 
+    (req, res) => {
+        console.log('routed through "/login" POST');
+        const filePath = path.join(__dirname, '../public/home.html');
+        return res.status(202).sendFile(filePath);
 })
 
-app.get('/home', (req, res) => {
+app.get('/home', sessionController.checkSession, (req, res) => {
     console.log('routed through "/home"');
     const filePath = path.join(__dirname, '../public/home.html');
-    return res.status(200).sendFile(filePath);
+    return res.status(202).sendFile(filePath);
 })
 
 app.get('/users', userController.getUsers, (req,res) => {

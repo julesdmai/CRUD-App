@@ -6,6 +6,7 @@ cookieController.setSSIDCookie = (req, res, next) => {
         httpOnly: true,
         secure: true
     });
+    console.log('cookie has been set');
     return next();
 }
 

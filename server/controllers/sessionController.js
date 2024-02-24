@@ -6,7 +6,7 @@ const sessionController = {};
 sessionController.startSession = async (req, res, next) => {
     console.log('sessionController.startSession');
     try {
-        const session = await Session.create({ cookieId: res.locals.userId})
+        const session = await Session.create({ userId: res.locals.userId})
         console.log('session was created');
         return next();
     }
@@ -22,8 +22,10 @@ sessionController.startSession = async (req, res, next) => {
 // Middleware to check if a user is logged in
 sessionController.checkSession = async (req, res, next) => {
     console.log('sessionController.checkSession');
+
+    const { ssid } = req.cookies;
     try {
-        const session = await Session.find({cookieId: ssid});
+        const session = await Session.find({ userId: ssid});
         if (session.length === 0) {
             console.log('no active session found');
             return res.status(403).redirect('/login');
