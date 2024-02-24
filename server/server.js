@@ -3,6 +3,9 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 
+// import middleware
+const userController = require('./controllers/userController');
+
 const app = express();
 
 // import controllers
@@ -11,8 +14,15 @@ const app = express();
 const PORT = 3000;
 
 // handle parsing request body
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// app.use(cookieParser());
 
 // connect to mongoDB
+mongoose.connect('mongodb+srv://julesdmai:zoPQKk8WWTFxicMj@attempt01.noejrg3.mongodb.net/?retryWrites=true&w=majority&appName=Attempt01');
+mongoose.connection.once('open', () => {
+    console.log('Connected to Database');
+});
 
 // handle requests for static files
 app.use(express.static(path.join(__dirname, '../public')));
@@ -30,9 +40,21 @@ app.get('/signup', (req, res) => {
     return res.status(200).sendFile(filePath);
 })
 
+app.post('/signup', userController.createUser, (req, res) => {
+    console.log('routed through "/signup POST"');
+    const filePath = path.join(__dirname, '../public/login.html');
+    return res.status(201).sendFile(filePath);
+})
+
 app.get('/login', (req, res) => {
     console.log('routed through "/login"');
     const filePath = path.join(__dirname, '../public/login.html');
+    return res.status(200).sendFile(filePath);
+})
+
+app.post('/login', userController.verifyUser, (req, res) => {
+    console.log('routed through "/login" POST');
+    const filePath = path.join(__dirname, '../public/home.html');
     return res.status(200).sendFile(filePath);
 })
 
@@ -59,7 +81,7 @@ app.use((err, req, res, next) => {
   }
   // respond with updated error message
   const errorObject = Object.assign({}, defaultError, err);
-  return res.status(errorObject.status).json(errorObject.message);
+  return res.status(errorObject.status).json(errorObject.message.err);
 });
 
 // Start server
