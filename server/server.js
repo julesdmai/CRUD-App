@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 // import middleware
 const userController = require('./controllers/userController');
+const sessionController = require('./controllers/sessionController')
 
 const app = express();
 
@@ -51,7 +52,7 @@ app.get('/login', (req, res) => {
     const filePath = path.join(__dirname, '../public/login.html');
     return res.status(200).sendFile(filePath);
 })
-
+// sessionController.startSession,
 app.post('/login', userController.verifyUser, (req, res) => {
     console.log('routed through "/login" POST');
     const filePath = path.join(__dirname, '../public/home.html');

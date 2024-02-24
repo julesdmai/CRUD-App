@@ -26,7 +26,8 @@ userController.createUser = async (req, res, next) => {
         const user = await User.create({
             username: username,
             password: password,
-        });
+        });        
+        console.log('user created: ', user);
         return next();
     }
 
@@ -43,8 +44,51 @@ userController.createUser = async (req, res, next) => {
 
 // Middleware to verify a user in database
 userController.verifyUser = async (req, res, next) => {
+    console.log('userController.verifyUser');
+    console.log('req.body contains: ', req.body);
+
+    // Destructure variables from req.body
+    const { username, password } = req.body;
 
 
+    // Check user input
+    if (!username || !password) {
+        return next({
+            log: 'Error occured in userController.createUser.',
+            status: 400,
+            message:{err: 'Missing user login parameters'},
+        });
+    }
+
+
+    // Finding user in mongoDB
+    try {
+        const user = await User.find({
+            username: username,
+            password: password,
+        });
+        if (user.length === 0) {
+            console.log('no user found');
+            return res.status(203).redirect('/login');
+        }
+        return next();
+    }
+
+
+    // Error handler
+    catch (err) {
+        return next({
+            log: 'Error occured in userController.verifyUser.',
+            status: 500,
+            message: {err: 'Error occurred in controller.verifyUser. Check server logs for more details.'}
+        });
+    }
+
+}
+
+
+// Middleware to find all users in database
+userController.getUsers = async (req, res, next) => {
     return next();
 }
 
