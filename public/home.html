@@ -5,7 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attempt01</title>
 </head>
+<script defer>
+    async function fetchAndDisplayUsers() {
+        try {
+            const response = await fetch('/users');
+            const data = await response.json();
+            const usersList = document.getElementById('usersList');
+            data.forEach(user => {
+                const userElement = document.createElement('div');
+                userElement.textContent = `User: ${user.username}`;
+                usersList.appendChild(userElement);
+            })
+        }
+        catch (err) {
+            console.error('Error fetching users: ', error);
+        }
+    }
+
+    // call the function
+    fetchAndDisplayUsers();
+
+</script>
 <body>
     <div><h1>Home</h1></div>
+    <div id="usersList"></div>
 </body>
 </html>

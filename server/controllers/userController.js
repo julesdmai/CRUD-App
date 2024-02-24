@@ -71,6 +71,7 @@ userController.verifyUser = async (req, res, next) => {
             console.log('no user found');
             return res.status(203).redirect('/login');
         }
+        res.locals.userId = user.id;
         return next();
     }
 
@@ -83,13 +84,25 @@ userController.verifyUser = async (req, res, next) => {
             message: {err: 'Error occurred in controller.verifyUser. Check server logs for more details.'}
         });
     }
-
 }
 
 
 // Middleware to find all users in database
 userController.getUsers = async (req, res, next) => {
-    return next();
+    try {
+        const users = await User.find({});
+        res.locals.users = users;
+        return next();
+    }
+    catch (err) {
+        return next({
+            log: 'Error occured in userController.getUsers.',
+            status: 500,
+            message: {err: 'Error occurred in controller.getUsers. Check server logs for more details.'}
+        });
+    }
 }
 
+
+// Export controller
 module.exports = userController;
