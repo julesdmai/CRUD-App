@@ -16,36 +16,37 @@ const PORT = 3000;
 
 // handle requests for static files
 app.use(express.static(path.join(__dirname, '../public')));
-// attempting to leverage express.static
+// attempting to leverage express.static // cannot because desire for clean URLs
 
-// handles loading the initial html page
-// app.get('/', (req, res) => {
-//     console.log("Routed through '/'");
-//     const route = path.join(__dirname, 'index.html');
-//     return res.sendFile(route);
-// });
+app.get('/', (req, res) => {
+    console.log('routed through "/"');
+    const filePath = path.join(__dirname, 'index.html');
+    return res.status(200).sendFile(filePath);
+})
 
-// app.get('/signup', (req, res) => {
-//     const route = path.join(__dirname, '../signup.html')
-//     return res.status(201).sendFile(route);
-// });
+app.get('/signup', (req, res) => {
+    console.log('routed through "/signup"');
+    const filePath = path.join(__dirname, '../public/signup.html');
+    return res.status(200).sendFile(filePath);
+})
 
-// app.get('/login', (req, res) => {
-//     const route = path.join(__dirname, '../login.html')
-//     return res.status(202).sendFile(route);
-// });
+app.get('/login', (req, res) => {
+    console.log('routed through "/login"');
+    const filePath = path.join(__dirname, '../public/login.html');
+    return res.status(200).sendFile(filePath);
+})
 
-// app.get('/home', (req, res) => {
-//     const route = path.join(__dirname, '../home.html')
-//     return res.status(200).sendFile(route);
-// });
-
+app.get('/home', (req, res) => {
+    console.log('routed through "/home"');
+    const filePath = path.join(__dirname, '../public/home.html');
+    return res.status(200).sendFile(filePath);
+})
 
 // 404 handler
 app.get('*', (req, res) => {
-    console.log('unestablished route attempted, returning 404 error');
-    const route = path.join(__dirname, '../error.html');
-    return res.status(404).sendFile(route);
+    console.log('unable to route, returning 404');
+    const filePath = path.join(__dirname, '../public/error.html');
+    return res.status(404).sendFile(filePath);
 });
 
 
