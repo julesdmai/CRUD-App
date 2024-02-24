@@ -4,12 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attempt01</title>
+    <script defer>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.querySelector('form');
+            loginForm.addEventListener('submit', handleLogin);
+        });
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const username = formData.get('username');
+            const password = formData.get('password');
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({username, password})
+                })
+                if (!response.ok) {
+                    console.error('Login failed')
+;                }
+                else {
+                    window.location.href = '/home';
+                }
+            }
+            catch (err) {
+                console.error('Error logging in: ', err);
+            }
+        }
+    </script>
 </head>
 <body>
     <div><h1>Login</h1></div>
     <form>
         <input type="text" name ="username" placeholder="username" required/>
-        <input type="text" name ="password" placeholder="password" required/>
+        <input type="password" name ="password" placeholder="password" required/>
         <button type="submit">Login</button>
     </form>
 </body>

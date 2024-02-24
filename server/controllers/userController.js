@@ -71,7 +71,12 @@ userController.verifyUser = async (req, res, next) => {
             console.log('no user found');
             return res.status(203).redirect('/login');
         }
-        res.locals.userId = user.id;
+
+        // important that this is user[0]
+        console.log('user[0].id:', user[0].id);
+        
+        res.locals.userId = user[0].id;
+
         return next();
     }
 

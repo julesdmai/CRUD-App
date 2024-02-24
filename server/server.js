@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 // import middleware
 const userController = require('./controllers/userController');
@@ -17,7 +18,7 @@ const PORT = 3000;
 // Handle parsing request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(cookieParser());
+app.use(cookieParser());
 
 // Connect to mongoDB
 mongoose.connect('mongodb+srv://julesdmai:zoPQKk8WWTFxicMj@attempt01.noejrg3.mongodb.net/?retryWrites=true&w=majority&appName=Attempt01');
